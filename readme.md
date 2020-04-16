@@ -1,0 +1,1 @@
+Para inicir qualquer destes códigos, assegure ter o compilador correto e, então, execute: g++ main.cpp -o output && ./output
