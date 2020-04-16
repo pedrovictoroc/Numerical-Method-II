@@ -39,6 +39,7 @@ long double getW2(){
 long double myFunction(long double x){
     long double equation = (sin(2*x) + (4*pow(x,2)) + 3*x);
     long double finalResult = pow(equation,2);
+    
     return finalResult;
 }
 
@@ -66,8 +67,8 @@ long double calculateLegendreSecondeDegree(long double inicio, long double fim){
 
 int main(){
     
-    long double inicio = 0;
-    long double fim = 1;
+    long double inicio = 1;
+    long double fim = 4;
 
     
     long double result = calculateLegendreSecondeDegree(inicio, fim);
