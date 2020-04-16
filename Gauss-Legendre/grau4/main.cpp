@@ -35,8 +35,7 @@ long double getW1(){
 long double getW2(){
     long double inicial = IntegratedLagrange2(-1);
     long double final = IntegratedLagrange2(1);
-    cout << inicial << "\n";
-    cout << final << "\n";
+
     return (final - inicial);
 }
 
@@ -64,10 +63,11 @@ long double calculateLegendreFourthDegree(long double inicio, long double fim){
     long double fXAlpha4 = myFunction(xAlpha4);
 
     //Note que W1=W4 e W2=W3
-    long double w1 = getW1();
-    long double w2 = getW2();
+    //long double w1 = getW1();
+    //long double w2 = getW2();
 
-    cout << w2<<"\n";
+    long double w1 = 0.3478548451 ;
+    long double w2 = 0.6521451548;
 
     long double primeiro = fXAlpha1*w1;
     long double segundo = fXAlpha2*w2;
@@ -91,11 +91,42 @@ int main(){
     cout << "Informe o limite superior" << "\n"; 
     cin >> fim;
 
-
+    
     long double result = calculateLegendreFourthDegree(inicio, fim);
-    
-    cout << fixed << setprecision(10);
-    cout << result << "\n";
-    
+
+    long double erro = 1;
+    int n = 1;
+    long double intervalo = fim - inicio;
+    long double integralAnterior = result;
+
+    int contadorVoltas = 0;
+
+    while(erro > 0.000001){
+        
+        n = 2*n;
+        contadorVoltas = contadorVoltas + 1;
+        
+        long double acumuladorIntervalo = 0;
+        long double subIntervalo = intervalo / n;
+        long double acumuladorIntegral = 0;
+        int loopCounter = 0;
+            
+        while(acumuladorIntervalo < intervalo){
+            acumuladorIntervalo = acumuladorIntervalo + subIntervalo;
+            acumuladorIntegral = acumuladorIntegral + calculateLegendreFourthDegree(inicio+(subIntervalo*loopCounter), inicio+(subIntervalo*(loopCounter+1)));
+            loopCounter = loopCounter + 1;
+        }
+
+        erro = abs(acumuladorIntegral - integralAnterior);
+
+        cout << fixed << setprecision(8);
+        cout << "Volta: " << contadorVoltas << "| Integral: " << acumuladorIntegral << "| Erro: " << erro << "\n";
+
+        if(erro > 0.000001){
+            integralAnterior = acumuladorIntegral;
+        }
+    }
+
+    cout << "Aproximação alcançada com sucesso!" << "\n";
     return 0;
 }

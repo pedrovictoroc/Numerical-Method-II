@@ -37,6 +37,7 @@ long double getW2(){
 }
 
 long double myFunction(long double x){
+
     long double equation = (sin(2*x) + (4*pow(x,2)) + 3*x);
     long double finalResult = pow(equation,2);
     
@@ -67,14 +68,53 @@ long double calculateLegendreSecondeDegree(long double inicio, long double fim){
 
 int main(){
     
-    long double inicio = 1;
-    long double fim = 4;
+    long double inicio;
+    long double fim;
 
+
+    cout << "Por padrão esse algoritmo usa a função benchmark das aulas!" << "\n";
+    cout << "Caso deseja outra função, altere o método 'MyFuction'!" << "\n";
+    cout << "Informe o limite inferior" << "\n"; 
+    cin >> inicio;
+    cout << "Informe o limite superior" << "\n"; 
+    cin >> fim;
     
     long double result = calculateLegendreSecondeDegree(inicio, fim);
+
+    long double erro = 1;    
+    int n = 1;
+    long double intervalo = fim - inicio;
+    long double integralAnterior = result;
+
+    int contadorVoltas = 0;
     
-    cout << fixed << setprecision(8);
-    cout << result << "\n";
+    while(erro > 0.000001){
+        
+        n = 2*n;
+        contadorVoltas = contadorVoltas + 1;
+
+        long double acumuladorIntervalo = 0;
+        long double subIntervalo = intervalo / n;
+        long double acumuladorIntegral = 0;
+        int loopCounter = 0;
+            
+        while(acumuladorIntervalo < intervalo){
+            acumuladorIntervalo = acumuladorIntervalo + subIntervalo;
+            acumuladorIntegral = acumuladorIntegral + calculateLegendreSecondeDegree(inicio+(subIntervalo*loopCounter), inicio+(subIntervalo*(loopCounter+1)));
+            loopCounter = loopCounter + 1;
+        }
+
+        erro = abs(acumuladorIntegral - integralAnterior);
+
+        cout << fixed << setprecision(8);
+        cout << "Volta: " << contadorVoltas << "| Integral: " << acumuladorIntegral << "| Erro: " << erro << "\n";
+
+        if(erro > 0.000001){
+            integralAnterior = acumuladorIntegral;
+        }
+    }
+
+    cout << "Aproximação alcançada com sucesso!" << "\n";
 
     return 0;
 }
