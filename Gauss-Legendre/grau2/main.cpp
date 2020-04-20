@@ -3,6 +3,7 @@
 #include <iomanip>
 using namespace std;
 
+//Efetua cálculo de x(alpha) = (inicio + fim)/2 + ((fim-inicio)/2)*alpha
 long double getXAlpha(long double inicio, long double fim, long double alpha){
     
     long double result = ((inicio + fim)/2) + ((fim - inicio)/2)*alpha;
@@ -22,6 +23,7 @@ long double IntegratedLagrange2(long double alpha){
     return result;
 }
 
+//Calculo de peso 1 entre [-1,1]
 long double getW1(){
     long double inicial = IntegratedLagrange1(-1);
     long double final = IntegratedLagrange1(1);
@@ -29,19 +31,12 @@ long double getW1(){
     return (final - inicial);
 }
 
+//Calculo de peso 2 entre [-1,1]
 long double getW2(){
     long double inicial = IntegratedLagrange2(-1);
     long double final = IntegratedLagrange2(1);
     
     return (final - inicial);
-}
-
-long double myFunction(long double x){
-
-    long double equation = (sin(2*x) + (4*pow(x,2)) + 3*x);
-    long double finalResult = pow(equation,2);
-    
-    return finalResult;
 }
 
 long double calculateLegendreSecondeDegree(long double inicio, long double fim){
@@ -66,6 +61,15 @@ long double calculateLegendreSecondeDegree(long double inicio, long double fim){
     return result;
 }
 
+//Caso queira sair da função benchmark, basta modificar aqui
+long double myFunction(long double x){
+
+    long double equation = (sin(2*x) + (4*pow(x,2)) + 3*x);
+    long double finalResult = pow(equation,2);
+    
+    return finalResult;
+}
+
 int main(){
     
     long double inicio;
@@ -80,6 +84,10 @@ int main(){
     cin >> fim;
     
     long double result = calculateLegendreSecondeDegree(inicio, fim);
+
+
+    //Daqui em diante, apenas garante que a condição de: Error < 10⁻⁶
+    //seja obedecida
 
     long double erro = 1;    
     int n = 1;
